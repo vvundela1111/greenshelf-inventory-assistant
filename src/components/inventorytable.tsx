@@ -11,6 +11,7 @@ type InventoryTableProps = {
     onPatch: (id: string, updates: Partial<InventoryItem>) => Promise<InventoryItem>;
     onShowAdd: () => void;
     onGenerateInsight?: (id: string) => void;
+    onEdit?: (item: InventoryItem) => void;
     showFilters?: boolean;
 };
 
@@ -19,6 +20,7 @@ export default function InventoryTable({
     onPatch,
     onShowAdd,
     onGenerateInsight,
+    onEdit,
     showFilters = false,
 }: InventoryTableProps) {
     const [search, setSearch] = useState("");
@@ -154,6 +156,11 @@ export default function InventoryTable({
                                             <button style={smallBtn} onClick={() => onPatch(item.id, { quantityOnHand: item.quantityOnHand + 5 })}>
                                                 Restock +5
                                             </button>
+                                            {onEdit && (
+                                                <button style={smallBtn} onClick={() => onEdit(item)}>
+                                                    Edit
+                                                </button>
+                                            )}
                                             {onGenerateInsight && (
                                                 <button style={primaryBtn} onClick={() => onGenerateInsight(item.id)}>
                                                     Insight

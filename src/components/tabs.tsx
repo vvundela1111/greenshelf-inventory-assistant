@@ -29,8 +29,8 @@ export default function Tabs({ tab, setTab }: TabsProps) {
                 display: "flex",
                 gap: 10,
                 flexWrap: "wrap",
-                marginTop: 16,
-                marginBottom: 16,
+                alignItems: "center",
+                minHeight: 48,
             }}
         >
             {tabs.map((item) => {
@@ -43,11 +43,17 @@ export default function Tabs({ tab, setTab }: TabsProps) {
                         style={{
                             borderRadius: 999,
                             padding: "10px 16px",
-                            border: active ? "1px solid transparent" : "1px solid #d6dbe3",
-                            background: active ? "#1f6feb" : "#ffffff",
-                            color: active ? "#ffffff" : "#1f2937",
+                            border: active ? "1px solid #243847" : "1px solid #d6dde5",
+                            background: active ? "#243847" : "#ffffff",
+                            color: active ? "#ffffff" : "#33475b",
                             fontWeight: 600,
+                            fontSize: 14,
+                            letterSpacing: "0.01em",
                             cursor: "pointer",
+                            transition: "all 0.15s ease",
+                            boxShadow: active
+                                ? "0 6px 14px rgba(36, 56, 71, 0.14)"
+                                : "0 2px 6px rgba(36, 56, 71, 0.04)",
                         }}
                     >
                         {item.label}

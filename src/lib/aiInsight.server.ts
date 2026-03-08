@@ -1,9 +1,6 @@
 import OpenAI from "openai";
 import { ForecastResult, InsightResult, InventoryItem } from "./types";
 
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
 
 function buildFallback(item: InventoryItem, forecast: ForecastResult): string {
     const parts: string[] = [];
@@ -33,29 +30,32 @@ export async function generateInsight(
     item: InventoryItem,
     forecast: ForecastResult
 ): Promise<InsightResult> {
+
     const fallback = buildFallback(item, forecast);
 
+    // if no API key → fallback
     if (!process.env.OPENAI_API_KEY) {
-        return { mode: "fallback", text: fallback };
+        return {
+            mode: "fallback",
+            text: fallback,
+        };
     }
 
     try {
+        const client = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+
         const prompt = `
 You are helping a small cafe avoid stockouts and reduce waste.
 
-Use only the provided data.
-Do not invent facts or numbers.
-Write 2 short practical sentences.
-
 Item: ${item.name}
-Category: ${item.category}
 Quantity: ${item.quantityOnHand} ${item.unit}
-Average daily use: ${item.avgDailyUse}
-Days to stockout: ${forecast.daysToStockout ?? "unknown"}
-Days to expiry: ${forecast.daysToExpiry ?? "none"}
-Status tags: ${forecast.statusTags.join(", ") || "none"}
-Reorder suggested: ${forecast.reorderSuggested ? "yes" : "no"}
-    `.trim();
+Daily use: ${item.avgDailyUse}
+Days to stockout: ${forecast.daysToStockout}
+Days to expiry: ${forecast.daysToExpiry}
+Tags: ${forecast.statusTags.join(", ")}
+    `;
 
         const response = await client.responses.create({
             model: "gpt-5",
@@ -72,6 +72,7 @@ Reorder suggested: ${forecast.reorderSuggested ? "yes" : "no"}
             mode: "ai",
             text,
         };
+
     } catch {
         return {
             mode: "fallback",

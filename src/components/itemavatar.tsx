@@ -8,17 +8,21 @@ type ItemAvatarProps = {
     };
 };
 
-function getFallbackEmoji(name: string, category: string) {
-    const value = `${name} ${category}`.toLowerCase();
-
-    if (value.includes("coffee")) return "☕";
-    if (value.includes("milk")) return "🥛";
-    if (value.includes("cup")) return "🥤";
-    if (value.includes("tea")) return "🍵";
-    if (value.includes("bread") || value.includes("pastry")) return "🥐";
-    if (value.includes("package")) return "📦";
-    if (value.includes("clean")) return "🧼";
-    return "🌿";
+function getFallbackColor(category: string) {
+    switch (category) {
+        case "ingredients":
+            return "#dbeafe";
+        case "perishable":
+            return "#dcfce7";
+        case "packaging":
+            return "#fef3c7";
+        case "equipment":
+            return "#e9d5ff";
+        case "cleaning":
+            return "#fde2e2";
+        default:
+            return "#e5e7eb";
+    }
 }
 
 export default function ItemAvatar({ name, category, asset }: ItemAvatarProps) {
@@ -38,24 +42,36 @@ export default function ItemAvatar({ name, category, asset }: ItemAvatarProps) {
         );
     }
 
-    const emoji = asset?.kind === "emoji" && asset.emoji
-        ? asset.emoji
-        : getFallbackEmoji(name, category);
+    if (asset?.kind === "emoji" && asset.emoji) {
+        return (
+            <div
+                style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: 12,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "#f8fafc",
+                    fontSize: 20,
+                    border: "1px solid #e5e7eb",
+                }}
+            >
+                {asset.emoji}
+            </div>
+        );
+    }
 
     return (
         <div
+            aria-label={`${name} placeholder`}
             style={{
                 width: 42,
                 height: 42,
                 borderRadius: 12,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "#f1f5f9",
-                fontSize: 20,
+                background: getFallbackColor(category),
+                border: "1px solid #d1d5db",
             }}
-        >
-            {emoji}
-        </div>
+        />
     );
 }

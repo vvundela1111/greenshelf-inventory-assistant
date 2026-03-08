@@ -1,77 +1,12 @@
 [
   {
-    "name": "Whole Milk",
-    "category": "perishable",
-    "quantityOnHand": 4,
-    "unit": "12",
-    "avgDailyUse": 1,
-    "expirationDate": "2026-03-08",
-    "asset": {
-      "kind": "emoji",
-      "emoji": "12🌿"
-    },
-    "sustainability": {
-      "suggestedMaterials": [
-        "N/A"
-      ],
-      "certifications": [],
-      "endOfLife": "unknown",
-      "notes": ""
-    },
-    "id": "c581000b-0bb3-4ee1-92f2-28d64708b7b2",
-    "createdAt": "2026-03-08T18:19:04.872Z",
-    "updatedAt": "2026-03-08T18:19:42.768Z"
-  },
-  {
-    "name": "Scanned Oat Milk",
-    "category": "perishable",
-    "quantityOnHand": 25,
-    "unit": "unit",
-    "avgDailyUse": 0,
-    "expirationDate": null,
-    "asset": {
-      "kind": "emoji",
-      "emoji": "🥛"
-    },
-    "sustainability": {
-      "suggestedMaterials": [],
-      "certifications": [],
-      "endOfLife": "unknown",
-      "notes": ""
-    },
-    "id": "a93b9b2a-098a-4b97-a0f2-4d9334109655",
-    "createdAt": "2026-03-08T18:14:14.896Z",
-    "updatedAt": "2026-03-08T18:14:25.683Z"
-  },
-  {
-    "name": "Scanned Cup Pack",
-    "category": "packaging",
-    "quantityOnHand": 1,
-    "unit": "unit",
-    "avgDailyUse": 0,
-    "expirationDate": null,
-    "asset": {
-      "kind": "emoji",
-      "emoji": "🥤"
-    },
-    "sustainability": {
-      "suggestedMaterials": [],
-      "certifications": [],
-      "endOfLife": "unknown",
-      "notes": ""
-    },
-    "id": "6a91125a-5359-4fd0-a2f4-c131b3d0a022",
-    "createdAt": "2026-03-08T18:09:25.589Z",
-    "updatedAt": "2026-03-08T18:09:25.589Z"
-  },
-  {
     "id": "coffee-beans-house",
-    "name": "Coffee Beans",
+    "name": "House Coffee Beans",
     "category": "ingredients",
     "quantityOnHand": 18,
-    "unit": "lb",
-    "avgDailyUse": 3.5,
-    "expirationDate": "2026-04-05",
+    "unit": "bags",
+    "avgDailyUse": 3,
+    "expirationDate": "2026-04-07",
     "asset": {
       "kind": "emoji",
       "emoji": "☕"
@@ -86,14 +21,14 @@
       "notes": "Buying in bulk can reduce packaging waste."
     },
     "createdAt": "2026-03-08T12:00:00.000Z",
-    "updatedAt": "2026-03-08T12:00:00.000Z"
+    "updatedAt": "2026-03-08T22:49:28.398Z"
   },
   {
-    "id": "oat-milk",
-    "name": "Oat Milk",
+    "id": "oat-milk-barista",
+    "name": "Barista Oat Milk",
     "category": "perishable",
-    "quantityOnHand": 0,
-    "unit": "carton",
+    "quantityOnHand": 8,
+    "unit": "cartons",
     "avgDailyUse": 3,
     "expirationDate": "2026-03-12",
     "asset": {
@@ -103,39 +38,139 @@
     "sustainability": {
       "suggestedMaterials": [
         "Local supplier option",
-        "Right-size orders to reduce spoilage"
+        "Smaller order batches"
       ],
       "certifications": [],
       "endOfLife": "recycle",
-      "notes": "Order conservatively if demand drops."
+      "notes": "Smaller batch ordering may reduce spoilage risk."
     },
     "createdAt": "2026-03-08T12:00:00.000Z",
-    "updatedAt": "2026-03-08T18:14:55.465Z"
+    "updatedAt": "2026-03-08T12:00:00.000Z"
   },
   {
-    "id": "paper-cups",
-    "name": "Paper Cups",
+    "id": "paper-cups-12oz",
+    "name": "12 oz Paper Cups",
     "category": "packaging",
-    "quantityOnHand": 794,
-    "unit": "cup",
+    "quantityOnHand": 800,
+    "unit": "cups",
     "avgDailyUse": 130,
     "expirationDate": null,
-    "asset": {
-      "kind": "emoji",
-      "emoji": "🥤"
-    },
     "sustainability": {
       "suggestedMaterials": [
-        "FSC-certified paper",
+        "FSC-certified paper cups",
         "Reusable cup incentive"
       ],
       "certifications": [
         "FSC"
       ],
       "endOfLife": "recycle",
-      "notes": "Consider reusable cup discounts."
+      "notes": "Consider reusable mug discounts to reduce single-use packaging."
     },
     "createdAt": "2026-03-08T12:00:00.000Z",
-    "updatedAt": "2026-03-08T18:14:48.609Z"
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "compost-lids",
+    "name": "Compostable Cup Lids",
+    "category": "packaging",
+    "quantityOnHand": 320,
+    "unit": "lids",
+    "avgDailyUse": 90,
+    "expirationDate": null,
+    "sustainability": {
+      "suggestedMaterials": [
+        "Certified compostable lids",
+        "Reusable dine-in mug option"
+      ],
+      "certifications": [
+        "BPI"
+      ],
+      "endOfLife": "compost",
+      "notes": "Ensure local composting access before scaling usage."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "chai-syrup",
+    "name": "Chai Syrup",
+    "category": "ingredients",
+    "quantityOnHand": 4,
+    "unit": "bottles",
+    "avgDailyUse": 1,
+    "expirationDate": "2026-03-18",
+    "asset": {
+      "kind": "emoji",
+      "emoji": "🍯"
+    },
+    "sustainability": {
+      "suggestedMaterials": [
+        "Refillable syrup containers"
+      ],
+      "certifications": [],
+      "endOfLife": "recycle",
+      "notes": "Refill systems may reduce repeated bottle waste."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "croissant-pack",
+    "name": "Butter Croissants",
+    "category": "perishable",
+    "quantityOnHand": 14,
+    "unit": "pieces",
+    "avgDailyUse": 6,
+    "expirationDate": "2026-03-10",
+    "sustainability": {
+      "suggestedMaterials": [
+        "Smaller daily bake batches",
+        "End-of-day donation plan"
+      ],
+      "certifications": [],
+      "endOfLife": "unknown",
+      "notes": "Daily forecasting can reduce unsold pastry waste."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "espresso-machine-cleaner",
+    "name": "Espresso Machine Cleaner",
+    "category": "cleaning",
+    "quantityOnHand": 3,
+    "unit": "containers",
+    "avgDailyUse": 0,
+    "expirationDate": null,
+    "sustainability": {
+      "suggestedMaterials": [
+        "Concentrated refill packaging"
+      ],
+      "certifications": [],
+      "endOfLife": "recycle",
+      "notes": "Refill formats may reduce plastic waste."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "napkin-box",
+    "name": "Recycled Napkins",
+    "category": "packaging",
+    "quantityOnHand": 500,
+    "unit": "napkins",
+    "avgDailyUse": 80,
+    "expirationDate": null,
+    "sustainability": {
+      "suggestedMaterials": [
+        "100% recycled fiber napkins",
+        "Napkin dispenser controls"
+      ],
+      "certifications": [],
+      "endOfLife": "compost",
+      "notes": "Dispenser controls can reduce overuse."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
   }
 ]

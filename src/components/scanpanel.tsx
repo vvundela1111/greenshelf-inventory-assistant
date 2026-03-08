@@ -3,48 +3,118 @@
 import { useState } from "react";
 import { InventoryItem } from "@/lib/types";
 
+type ScanDraft = Omit<InventoryItem, "id" | "createdAt" | "updatedAt">;
+
 type ScanPanelProps = {
-    onCreateFromScan: (
-        draft: Omit<InventoryItem, "id" | "createdAt" | "updatedAt">
-    ) => Promise<void>;
+    onCreateFromScan: (draft: ScanDraft) => Promise<void>;
+    onUseDraft?: (draft: ScanDraft) => void;
 };
 
-export default function ScanPanel({ onCreateFromScan }: ScanPanelProps) {
+type ScanResult = {
+    name: string;
+    category: InventoryItem["category"];
+    unit: string;
+    avgDailyUse: number;
+    suggestedMaterials: string[];
+    notes: string;
+    asset?: InventoryItem["asset"];
+};
+
+export default function ScanPanel({
+    onCreateFromScan,
+    onUseDraft,
+}: ScanPanelProps) {
     const [code, setCode] = useState("");
-    const [preview, setPreview] = useState<{
-        name: string;
-        category: InventoryItem["category"];
-        asset: InventoryItem["asset"];
-    } | null>(null);
+    const [preview, setPreview] = useState<ScanResult | null>(null);
+    const [file, setFile] = useState<File | null>(null);
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState("");
 
-    function simulateScan() {
+    function simulateTextScan() {
         const raw = code.trim().toLowerCase();
-
         if (!raw) return;
 
-        let name = "New Scanned Item";
-        let category: InventoryItem["category"] = "other";
-        let emoji = "📦";
+        let result: ScanResult = {
+            name: "New Scanned Item",
+            category: "other",
+            unit: "unit",
+            avgDailyUse: 0,
+            suggestedMaterials: [],
+            notes: "",
+            asset: { kind: "emoji", emoji: "📦" },
+        };
 
         if (raw.includes("milk")) {
-            name = "Scanned Oat Milk";
-            category = "perishable";
-            emoji = "🥛";
+            result = {
+                name: "Scanned Oat Milk",
+                category: "perishable",
+                unit: "carton",
+                avgDailyUse: 2,
+                suggestedMaterials: ["Order smaller batches to reduce spoilage"],
+                notes: "Likely refrigerated item.",
+                asset: { kind: "emoji", emoji: "🥛" },
+            };
         } else if (raw.includes("cup")) {
-            name = "Scanned Cup Pack";
-            category = "packaging";
-            emoji = "🥤";
+            result = {
+                name: "Scanned Cup Pack",
+                category: "packaging",
+                unit: "cup",
+                avgDailyUse: 40,
+                suggestedMaterials: ["Compostable cups", "FSC-certified paper cups"],
+                notes: "Packaging item with material substitution potential.",
+                asset: { kind: "emoji", emoji: "🥤" },
+            };
         } else if (raw.includes("coffee")) {
-            name = "Scanned Coffee Beans";
-            category = "ingredients";
-            emoji = "☕";
+            result = {
+                name: "Scanned Coffee Beans",
+                category: "ingredients",
+                unit: "bag",
+                avgDailyUse: 2,
+                suggestedMaterials: ["Bulk delivery sacks"],
+                notes: "Ingredient item with moderate daily usage.",
+                asset: { kind: "emoji", emoji: "☕" },
+            };
         }
 
-        setPreview({
-            name,
-            category,
-            asset: { kind: "emoji", emoji },
-        });
+        setError("");
+        setPreview(result);
+    }
+
+    async function analyzeUploadedImage() {
+        if (!file) return;
+
+        setBusy(true);
+        setError("");
+
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("/api/scan", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Image analysis failed");
+            }
+
+            setPreview({
+                name: data.name,
+                category: data.category,
+                unit: data.unit,
+                avgDailyUse: data.avgDailyUse,
+                suggestedMaterials: data.suggestedMaterials ?? [],
+                notes: data.notes ?? "",
+                asset: data.asset,
+            });
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Image analysis failed");
+        } finally {
+            setBusy(false);
+        }
     }
 
     async function confirmCreate() {
@@ -54,20 +124,41 @@ export default function ScanPanel({ onCreateFromScan }: ScanPanelProps) {
             name: preview.name,
             category: preview.category,
             quantityOnHand: 1,
-            unit: "unit",
-            avgDailyUse: 0,
+            unit: preview.unit,
+            avgDailyUse: preview.avgDailyUse,
             expirationDate: null,
             asset: preview.asset,
             sustainability: {
-                suggestedMaterials: [],
+                suggestedMaterials: preview.suggestedMaterials,
                 certifications: [],
                 endOfLife: "unknown",
-                notes: "",
+                notes: preview.notes,
             },
         });
 
         setCode("");
+        setFile(null);
         setPreview(null);
+    }
+
+    function sendToDraftForm() {
+        if (!preview || !onUseDraft) return;
+
+        onUseDraft({
+            name: preview.name,
+            category: preview.category,
+            quantityOnHand: 1,
+            unit: preview.unit,
+            avgDailyUse: preview.avgDailyUse,
+            expirationDate: null,
+            asset: preview.asset,
+            sustainability: {
+                suggestedMaterials: preview.suggestedMaterials,
+                certifications: [],
+                endOfLife: "unknown",
+                notes: preview.notes,
+            },
+        });
     }
 
     return (
@@ -81,36 +172,91 @@ export default function ScanPanel({ onCreateFromScan }: ScanPanelProps) {
         >
             <h2 style={{ marginTop: 0 }}>Virtual Asset Scanning</h2>
             <p style={{ color: "#64748b" }}>
-                Simulate a barcode or QR scan by typing a code or item keyword.
+                Simulate a scan using text, or upload an item image and let AI analyze it.
             </p>
 
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 14 }}>
-                <input
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="Type a code like milk-001 or cup-pack"
+            <div
+                style={{
+                    display: "grid",
+                    gap: 18,
+                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                }}
+            >
+                <div
                     style={{
-                        padding: "11px 12px",
-                        borderRadius: 12,
-                        border: "1px solid #d1d5db",
-                        minWidth: 260,
-                    }}
-                />
-                <button
-                    onClick={simulateScan}
-                    style={{
-                        borderRadius: 12,
-                        border: "none",
-                        background: "#111827",
-                        color: "white",
-                        padding: "11px 16px",
-                        fontWeight: 700,
-                        cursor: "pointer",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: 14,
+                        padding: 16,
+                        background: "#fafafa",
                     }}
                 >
-                    Simulate Scan
-                </button>
+                    <div style={{ fontWeight: 700, marginBottom: 8 }}>Text Scan</div>
+                    <input
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        placeholder="Type a code like milk-001 or cup-pack"
+                        style={{
+                            padding: "11px 12px",
+                            borderRadius: 12,
+                            border: "1px solid #d1d5db",
+                            width: "100%",
+                            marginBottom: 10,
+                        }}
+                    />
+                    <button
+                        onClick={simulateTextScan}
+                        style={primaryBtn}
+                    >
+                        Simulate Scan
+                    </button>
+                </div>
+
+                <div
+                    style={{
+                        border: "1px solid #e5e7eb",
+                        borderRadius: 14,
+                        padding: 16,
+                        background: "#fafafa",
+                    }}
+                >
+                    <div style={{ fontWeight: 700, marginBottom: 8 }}>Image Scan</div>
+                    <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                        style={{ marginBottom: 10 }}
+                    />
+                    <div style={{ color: "#64748b", fontSize: 13, marginBottom: 10 }}>
+                        Upload a product or supply image. The AI will infer the item type and suggest fields.
+                    </div>
+                    <button
+                        onClick={analyzeUploadedImage}
+                        disabled={!file || busy}
+                        style={{
+                            ...primaryBtn,
+                            opacity: !file || busy ? 0.6 : 1,
+                            cursor: !file || busy ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        {busy ? "Analyzing..." : "Analyze Image"}
+                    </button>
+                </div>
             </div>
+
+            {error && (
+                <div
+                    style={{
+                        marginTop: 14,
+                        background: "#fff1f2",
+                        border: "1px solid #fecdd3",
+                        color: "#be123c",
+                        borderRadius: 12,
+                        padding: 12,
+                    }}
+                >
+                    {error}
+                </div>
+            )}
 
             {preview && (
                 <div
@@ -122,28 +268,48 @@ export default function ScanPanel({ onCreateFromScan }: ScanPanelProps) {
                         padding: 16,
                     }}
                 >
-                    <div style={{ fontWeight: 700, marginBottom: 8 }}>Scan Result</div>
-                    <div>Name: {preview.name}</div>
-                    <div>Category: {preview.category}</div>
-                    <div>Asset: {preview.asset?.kind === "emoji" ? preview.asset.emoji : "Image"}</div>
+                    <div style={{ fontWeight: 700, marginBottom: 10 }}>Scan Result</div>
 
-                    <button
-                        onClick={confirmCreate}
-                        style={{
-                            marginTop: 12,
-                            borderRadius: 12,
-                            border: "none",
-                            background: "#1f6feb",
-                            color: "white",
-                            padding: "10px 14px",
-                            fontWeight: 700,
-                            cursor: "pointer",
-                        }}
-                    >
-                        Add Scanned Item
-                    </button>
+                    <div style={{ display: "grid", gap: 6 }}>
+                        <div><strong>Name:</strong> {preview.name}</div>
+                        <div><strong>Category:</strong> {preview.category}</div>
+                        <div><strong>Unit:</strong> {preview.unit}</div>
+                        <div><strong>Suggested daily use:</strong> {preview.avgDailyUse}</div>
+                        <div><strong>Sustainability suggestions:</strong> {preview.suggestedMaterials.join(", ") || "None"}</div>
+                        <div><strong>Notes:</strong> {preview.notes || "None"}</div>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+                        <button onClick={confirmCreate} style={primaryBtn}>
+                            Add Scanned Item
+                        </button>
+
+                        {onUseDraft && (
+                            <button onClick={sendToDraftForm} style={secondaryBtn}>
+                                Use as Draft in Add Form
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
         </section>
     );
 }
+
+const primaryBtn: React.CSSProperties = {
+    borderRadius: 12,
+    border: "none",
+    background: "#111827",
+    color: "white",
+    padding: "11px 16px",
+    fontWeight: 700,
+};
+
+const secondaryBtn: React.CSSProperties = {
+    borderRadius: 12,
+    border: "1px solid #d1d5db",
+    background: "white",
+    color: "#111827",
+    padding: "11px 16px",
+    fontWeight: 700,
+};
