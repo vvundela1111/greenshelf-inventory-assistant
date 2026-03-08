@@ -1,0 +1,141 @@
+[
+  {
+    "name": "Whole Milk",
+    "category": "perishable",
+    "quantityOnHand": 4,
+    "unit": "12",
+    "avgDailyUse": 1,
+    "expirationDate": "2026-03-08",
+    "asset": {
+      "kind": "emoji",
+      "emoji": "12🌿"
+    },
+    "sustainability": {
+      "suggestedMaterials": [
+        "N/A"
+      ],
+      "certifications": [],
+      "endOfLife": "unknown",
+      "notes": ""
+    },
+    "id": "c581000b-0bb3-4ee1-92f2-28d64708b7b2",
+    "createdAt": "2026-03-08T18:19:04.872Z",
+    "updatedAt": "2026-03-08T18:19:42.768Z"
+  },
+  {
+    "name": "Scanned Oat Milk",
+    "category": "perishable",
+    "quantityOnHand": 25,
+    "unit": "unit",
+    "avgDailyUse": 0,
+    "expirationDate": null,
+    "asset": {
+      "kind": "emoji",
+      "emoji": "🥛"
+    },
+    "sustainability": {
+      "suggestedMaterials": [],
+      "certifications": [],
+      "endOfLife": "unknown",
+      "notes": ""
+    },
+    "id": "a93b9b2a-098a-4b97-a0f2-4d9334109655",
+    "createdAt": "2026-03-08T18:14:14.896Z",
+    "updatedAt": "2026-03-08T18:14:25.683Z"
+  },
+  {
+    "name": "Scanned Cup Pack",
+    "category": "packaging",
+    "quantityOnHand": 1,
+    "unit": "unit",
+    "avgDailyUse": 0,
+    "expirationDate": null,
+    "asset": {
+      "kind": "emoji",
+      "emoji": "🥤"
+    },
+    "sustainability": {
+      "suggestedMaterials": [],
+      "certifications": [],
+      "endOfLife": "unknown",
+      "notes": ""
+    },
+    "id": "6a91125a-5359-4fd0-a2f4-c131b3d0a022",
+    "createdAt": "2026-03-08T18:09:25.589Z",
+    "updatedAt": "2026-03-08T18:09:25.589Z"
+  },
+  {
+    "id": "coffee-beans-house",
+    "name": "Coffee Beans",
+    "category": "ingredients",
+    "quantityOnHand": 18,
+    "unit": "lb",
+    "avgDailyUse": 3.5,
+    "expirationDate": "2026-04-05",
+    "asset": {
+      "kind": "emoji",
+      "emoji": "☕"
+    },
+    "sustainability": {
+      "suggestedMaterials": [
+        "Bulk delivery sacks",
+        "Lower-waste supplier packaging"
+      ],
+      "certifications": [],
+      "endOfLife": "unknown",
+      "notes": "Buying in bulk can reduce packaging waste."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T12:00:00.000Z"
+  },
+  {
+    "id": "oat-milk",
+    "name": "Oat Milk",
+    "category": "perishable",
+    "quantityOnHand": 0,
+    "unit": "carton",
+    "avgDailyUse": 3,
+    "expirationDate": "2026-03-12",
+    "asset": {
+      "kind": "emoji",
+      "emoji": "🥛"
+    },
+    "sustainability": {
+      "suggestedMaterials": [
+        "Local supplier option",
+        "Right-size orders to reduce spoilage"
+      ],
+      "certifications": [],
+      "endOfLife": "recycle",
+      "notes": "Order conservatively if demand drops."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T18:14:55.465Z"
+  },
+  {
+    "id": "paper-cups",
+    "name": "Paper Cups",
+    "category": "packaging",
+    "quantityOnHand": 794,
+    "unit": "cup",
+    "avgDailyUse": 130,
+    "expirationDate": null,
+    "asset": {
+      "kind": "emoji",
+      "emoji": "🥤"
+    },
+    "sustainability": {
+      "suggestedMaterials": [
+        "FSC-certified paper",
+        "Reusable cup incentive"
+      ],
+      "certifications": [
+        "FSC"
+      ],
+      "endOfLife": "recycle",
+      "notes": "Consider reusable cup discounts."
+    },
+    "createdAt": "2026-03-08T12:00:00.000Z",
+    "updatedAt": "2026-03-08T18:14:48.609Z"
+  }
+]

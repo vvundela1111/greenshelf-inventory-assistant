@@ -1,0 +1,76 @@
+[
+    {
+        "id": "coffee-beans-house",
+        "name": "Coffee Beans",
+        "category": "ingredients",
+        "quantityOnHand": 18,
+        "unit": "lb",
+        "avgDailyUse": 3.5,
+        "expirationDate": "2026-04-05",
+        "asset": {
+            "kind": "emoji",
+            "emoji": "☕"
+        },
+        "sustainability": {
+            "suggestedMaterials": [
+                "Bulk delivery sacks",
+                "Lower-waste supplier packaging"
+            ],
+            "certifications": [],
+            "endOfLife": "unknown",
+            "notes": "Buying in bulk can reduce packaging waste."
+        },
+        "createdAt": "2026-03-08T12:00:00.000Z",
+        "updatedAt": "2026-03-08T12:00:00.000Z"
+    },
+    {
+        "id": "oat-milk",
+        "name": "Oat Milk",
+        "category": "perishable",
+        "quantityOnHand": 8,
+        "unit": "carton",
+        "avgDailyUse": 3,
+        "expirationDate": "2026-03-12",
+        "asset": {
+            "kind": "emoji",
+            "emoji": "🥛"
+        },
+        "sustainability": {
+            "suggestedMaterials": [
+                "Local supplier option",
+                "Right-size orders to reduce spoilage"
+            ],
+            "certifications": [],
+            "endOfLife": "recycle",
+            "notes": "Order conservatively if demand drops."
+        },
+        "createdAt": "2026-03-08T12:00:00.000Z",
+        "updatedAt": "2026-03-08T12:00:00.000Z"
+    },
+    {
+        "id": "paper-cups",
+        "name": "Paper Cups",
+        "category": "packaging",
+        "quantityOnHand": 800,
+        "unit": "cup",
+        "avgDailyUse": 130,
+        "expirationDate": null,
+        "asset": {
+            "kind": "emoji",
+            "emoji": "🥤"
+        },
+        "sustainability": {
+            "suggestedMaterials": [
+                "FSC-certified paper",
+                "Reusable cup incentive"
+            ],
+            "certifications": [
+                "FSC"
+            ],
+            "endOfLife": "recycle",
+            "notes": "Consider reusable cup discounts."
+        },
+        "createdAt": "2026-03-08T12:00:00.000Z",
+        "updatedAt": "2026-03-08T12:00:00.000Z"
+    }
+]
