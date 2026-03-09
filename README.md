@@ -35,8 +35,8 @@ The system prioritizes reliability and deterministic behavior. AI features enhan
 
 
 **Video Link:**  
-INSERT VIDEO LINK HERE
-
+[INSERT VIDEO LINK HERE
+](https://youtu.be/Wdo77qnRD2U)
 ## Quick Start
 
 ### Prerequisites
